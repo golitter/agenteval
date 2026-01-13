@@ -11,6 +11,8 @@ from src.agents.profiler.tools.module import profiler_tools_list
 from src.utils.memory import FileMemory
 from src.utils.callback import SyncCallbackHandler
 
+from langchain.agents.middleware import TodoListMiddleware
+
 ProfilerAgent_SYSTEM_PROMPT = load_prompt_templates()["profiler"]["system_prompt"]
 
 class ProfilerAgent:
@@ -34,6 +36,12 @@ class ProfilerAgent:
         agent = create_agent(
             model=llm,
             tools=profiler_tools_list,
+            middleware=[TodoListMiddleware(            
+                system_prompt=(
+                "在开始处理复杂任务时，先用 write_todos 工具创建一个待办清单；"
+                "执行过程中根据进展更新待办清单，包括补充新任务或删除无效任务。"
+            )
+            )],
             system_prompt=ProfilerAgent_SYSTEM_PROMPT,
         )
 
