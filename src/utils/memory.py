@@ -2,7 +2,7 @@ import os
 import json
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 from typing import List, Dict, Any
-
+import time
 from config import load_config
 
 _config = load_config()
@@ -76,7 +76,9 @@ class FileMemory:
                 history.append({type: content})
         if backup:
             backup_dir = os.path.join(BACKUP_MEMORY_DIR, self.agent_type)
-            backup_path = os.path.join(backup_dir, f"{self.agent_type}.json.bak")
+            os.makedirs(backup_dir, exist_ok=True)
+            current_time_str = time.strftime("%Y%m%d%H%M%S")
+            backup_path = os.path.join(backup_dir, f"{current_time_str}.json")
             try:
                 with open(backup_path, "w", encoding="utf-8") as f:
                     json.dump(history, f, ensure_ascii=False, indent=2)

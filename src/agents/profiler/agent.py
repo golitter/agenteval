@@ -9,6 +9,8 @@ from langchain_core.messages import HumanMessage, BaseMessage
 from config import Configuration, load_prompt_templates
 from src.agents.profiler.tools.module import profiler_tools_list
 from src.utils.memory import FileMemory
+from src.utils.callback import SyncCallbackHandler
+
 ProfilerAgent_SYSTEM_PROMPT = load_prompt_templates()["profiler"]["system_prompt"]
 
 class ProfilerAgent:
@@ -27,6 +29,7 @@ class ProfilerAgent:
             model=self.config.model, # type: ignore
             api_key=self.config.api_key, # type: ignore
             base_url=self.config.base_url,
+            callbacks=[SyncCallbackHandler()],
         )
         agent = create_agent(
             model=llm,
@@ -37,13 +40,15 @@ class ProfilerAgent:
         user_message = HumanMessage(input_data.get("input", ""))
         agent_response = await agent.ainvoke({
             "messages": initial_messages + [user_message] # type: ignore
-        })
+        },
+        config={"callbacks": [SyncCallbackHandler()]}
+        )
 
         messages_to_save = [
             BaseMessage(content=msg.content, type=msg.type)
             for msg in agent_response["messages"]
         ]
-        FileMemory(agent_type="profiler").save(messages_to_save)
+        FileMemory(agent_type="profiler").save(messages_to_save, backup=True)
 
         return {"messages": agent_response["messages"]}
 
