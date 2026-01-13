@@ -21,8 +21,7 @@ class ProfilerAgent:
         """无状态调用：加载历史 → 创建 Agent → 调用 → 保存历史"""
         config = config or {}
 
-        file_memory = FileMemory(agent_type="profiler")
-        initial_messages = file_memory.load() or []
+        initial_messages = []
 
         llm = ChatDeepSeek(
             model=self.config.model, # type: ignore

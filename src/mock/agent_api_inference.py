@@ -30,4 +30,4 @@ def agent_api_inference(query: str, session_id: str) -> str:
     response.raise_for_status()
     result = response.json()
     # print(result)
-    return result.get("response", "")
+    return result.get("log", "")

@@ -10,6 +10,7 @@ def agent_chat_inference(query: str) -> str:
         str: 智能体的响应内容。
     """
     return agent_api_inference(query=query, session_id="test_session")
+
 @tool()
 def agent_chat_status() -> dict:
     """
@@ -18,11 +19,12 @@ def agent_chat_status() -> dict:
         str: 智能体的状态描述。
     """
     status = agent_api_health_check()
+
     return status
 
 if __name__ == "__main__":
-    # answer = agent_chat_inference.invoke({"query": "介绍一下你自己。"})
-    # print(f"智能体响应: {answer}")
+    answer = agent_chat_inference.invoke({"query": "介绍一下你自己。"})
+    print(f"智能体响应: {answer}")
 
     status = agent_chat_status.invoke({})
     print(f"智能体状态: {status}")

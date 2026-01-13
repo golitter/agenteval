@@ -11,3 +11,4 @@ wheels/
 .env
 tlab.py
 /data
+.vscode
