@@ -36,12 +36,6 @@ class EvaluatorAgent:
         agent = create_agent(
             model=llm,
             tools=evaluator_tools_list,
-            middleware=[TodoListMiddleware(            
-                system_prompt=(
-                "在开始处理复杂任务时，先用 write_todos 工具创建一个待办清单；"
-                "执行过程中根据进展更新待办清单，包括补充新任务或删除无效任务。"
-            )
-            )],
             system_prompt=EvaluatorAgent_SYSTEM_PROMPT,
         )
 
@@ -56,7 +50,7 @@ class EvaluatorAgent:
             BaseMessage(content=msg.content, type=msg.type)
             for msg in agent_response["messages"]
         ]
-        FileMemory(agent_type="profiler").save(messages_to_save, backup=True)
+        FileMemory(agent_type="evaluator").save(messages_to_save, backup=True)
 
         return {"messages": agent_response["messages"]}
 
