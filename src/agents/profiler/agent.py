@@ -68,8 +68,9 @@ async def main():
         "input": "请分析这个智能体的设计目的和使用的工具。"
     }
     response = await profiler_agent.ainvoke(input_data)
-    for msg in response["messages"]:
-        print(f"{msg.type}: {msg.content}")
+    # for msg in response["messages"]:
+    #     print(f"{msg.type}: {msg.content}")
+    print(response["messages"][-1].content)
 
 if __name__ == "__main__":
     asyncio.run(main())
