@@ -4,8 +4,7 @@ import json
 from loguru import logger
 from langchain.agents import create_agent
 from langchain_deepseek import ChatDeepSeek
-from langchain_core.messages import HumanMessage, BaseMessage
-from pydantic import BaseModel, Field
+from langchain_core.messages import HumanMessage
 
 from config import Configuration, load_prompt_templates
 from src.utils.callback import SyncCallbackHandler
@@ -25,13 +24,6 @@ def get_full_system_prompt() -> str:
         except Exception as e:
             logger.error(f"Failed to load test description file: {e}")
     return DescriberAgent_SYSTEM_PROMPT.replace("{test_description}", "No description available.")
-
-
-class DescriptionOutput(BaseModel):
-    """固定格式的输出模型"""
-    description: str = Field(description="描述内容")
-    summary: Optional[str] = Field(default=None, description="可选的摘要")
-    category: str = Field(description="分类")
 
 class DescriberAgent:
     """Describer Agent ，无状态调用 Agent 并管理对话历史。"""
