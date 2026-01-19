@@ -1,0 +1,42 @@
+[
+    {
+        "query": "调用工具生成 Fe-C 二元相图",
+        "result": "Fe-C 二元相图的描述",
+        "intermediate_steps": [
+            "使用默认值",
+            "进行确认"
+        ]
+    },
+    {
+        "query": "请计算高熵合金Al、Ni、Co、Cr、Fe体系下的等温截面相图。X(Cr) = X(Co) = 0.2。x轴为Ni的组分，y轴为Al的组分",
+        "result": "高熵合金Al、Ni、Co、Cr、Fe体系下的等温截面相图描述",
+        "intermediate_steps": [
+            "使用默认值",
+            "进行确认"
+        ]
+    },
+    {
+        "query": "请计算高熵合金Ni、Co、Cr体系（ Cr1-2xCoxNix ）的垂直截面相图。",
+        "result": "高熵合金Ni、Co、Cr体系（ Cr1-2xCoxNix ）的垂直截面相图描述",
+        "intermediate_steps": [
+            "使用默认值",
+            "进行确认"
+        ]
+    },
+    {
+        "query": "调用工具生成 Fe-Si 二元相图",
+        "result": "Fe-Si 二元相图的描述",
+        "intermediate_steps": [
+            "使用默认值",
+            "进行确认"
+        ]
+    },
+    {
+        "query": "调用工具生成 Fe-C 二元相图",
+        "result": "Fe-C 二元相图的描述",
+        "intermediate_steps": [
+            "添加额外项，先调用工具查看有哪些可选项，任选一个即可",
+            "进行确认"
+        ]
+    }
+]
