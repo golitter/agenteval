@@ -17,6 +17,13 @@ class Orchestrator:
         self.data_loader = data_loader
 
     async def profile(self, query: str = "请分析这个智能体的设计目的和使用的工具。"):
+        """
+        对待测智能体进行分析。
+        Args:
+            query: 用于分析智能体的查询字符串。
+        Returns:
+            包含分析信息的markdown文本。
+        """
         profiler = ProfilerAgent()
         config_ini = load_config()
         extras_profile_config = config_ini.get("agent_api_extras", "profiler")
@@ -28,6 +35,12 @@ class Orchestrator:
         return await profiler.ainvoke({"input": query}, agent_api_extras=extras_profile_config)
 
     async def describes(self):
+        """
+        对格式化的测试样本进行描述，转述为自然语言。
+        Args:
+        Returns:
+            包含自然语言描述的测试列表。
+        """
         test_description = self.data_loader.load_test_data()
         described_samples = []
         # print(test_description)
@@ -40,6 +53,12 @@ class Orchestrator:
         return described_samples
     
     async def evaluates(self):
+        """
+        对自然语言形式的测试样本进行与智能体交互的评估。
+        Args:
+        Returns:
+            包含评估结果的列表。
+        """
         test_description = self.data_loader.load_described_data()
         evaluated_results = []
         config_ini = load_config()
@@ -63,6 +82,12 @@ class Orchestrator:
         return evaluated_results
 
     async def analyze(self):
+        """
+        分析评估结果并生成报告。
+        Args:
+        Returns:
+            包含分析报告的CSV字符串。
+        """
         evaluated_results = self.data_loader.load_evaluated_results()
         origin_inputs = self.data_loader.load_test_data()
 

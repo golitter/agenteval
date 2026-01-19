@@ -32,7 +32,14 @@ class DescriberAgent:
         self.config = config
 
     async def ainvoke(self, input_data: Dict[str, Any], config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        """无状态调用：加载历史 → 创建 Agent → 调用 → 保存历史"""
+        """
+        异步调用 Describer Agent 进行描述智能体。
+        Args:
+            input_data: 包含输入数据的字典，必须包含 "input" 键。
+            config: 可选的配置字典，用于覆盖默认配置。
+        Returns:
+            包含描述信息的字典。
+        """
         config = config or {}
 
         initial_messages = []

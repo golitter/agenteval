@@ -29,7 +29,7 @@ class ProfilerAgent:
             config: 可选的配置字典，用于覆盖默认配置。
             agent_api_extras: 可选的额外参数字典，传递给 待测试的Agent API。
         Returns:
-            包含评估结果的字典。
+            包含分析信息的字典。
         """
         config = config or {}
 
