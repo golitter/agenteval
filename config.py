@@ -29,7 +29,7 @@ def load_prompt_templates() -> dict:
     return prompts
 
 class Configuration:
-    """读取 .env 与 servers_config.json"""
+    """读取 .env"""
 
     def __init__(self) -> None:
         # 从环境变量中加载 API key, base_url 和 model

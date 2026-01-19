@@ -3,8 +3,10 @@ eval.orchestrator 编排器，协调各阶段的执行流程
 """
 import asyncio
 import tqdm
+import json
+import os
 from src.eval.utils.analysis import batch_analyze, merge_origin_inputs_with_results, get_csv_report
-
+from config import load_config
 from src.agents import (
     EvaluatorAgent,
     ProfilerAgent,
@@ -16,7 +18,14 @@ class Orchestrator:
 
     async def profile(self, query: str = "请分析这个智能体的设计目的和使用的工具。"):
         profiler = ProfilerAgent()
-        return await profiler.ainvoke({"input": query})
+        config_ini = load_config()
+        extras_profile_config = config_ini.get("agent_api_extras", "profiler")
+        if not extras_profile_config or not os.path.exists(extras_profile_config):
+            raise FileNotFoundError(f"agent api 接口额外参数未找到: {extras_profile_config}")
+        
+        with open(extras_profile_config, "r", encoding="utf-8") as f:
+            extras_profile_config = json.load(f)
+        return await profiler.ainvoke({"input": query}, agent_api_extras=extras_profile_config)
 
     async def describes(self):
         test_description = self.data_loader.load_test_data()
@@ -33,9 +42,21 @@ class Orchestrator:
     async def evaluates(self):
         test_description = self.data_loader.load_described_data()
         evaluated_results = []
-        for item in tqdm.tqdm(test_description, desc="Evaluating"):
+        config_ini = load_config()
+        extras_profile_config = config_ini.get("agent_api_extras", "evaluator")
+        if not extras_profile_config or not os.path.exists(extras_profile_config):
+            raise FileNotFoundError(f"agent api 接口额外参数未找到: {extras_profile_config}")
+        
+        with open(extras_profile_config, "r", encoding="utf-8") as f:
+            extras_profile_config = json.load(f)
+
+        if len(extras_profile_config) != len(test_description):
+            raise ValueError("❌ evaluator agent_api_extras 配置数量与测试样本数量不匹配，请检查配置文件内容。")
+    
+        for item_tuple in tqdm.tqdm(zip(test_description, extras_profile_config), desc="Evaluating"):
+            item, extras_config = item_tuple
             evaluator = EvaluatorAgent()
-            response = await evaluator.ainvoke({"input": str(item)})
+            response = await evaluator.ainvoke({"input": str(item)}, agent_api_extras=extras_config)
             evaluated_result = response["messages"][-1].content
             evaluated_results.append(evaluated_result)
         self.data_loader.save_evaluated_results(evaluated_results)
@@ -62,7 +83,7 @@ async def main():
     # print(profile_response)
     # described_data = await orchestrator.describes()
     # print(described_data)
-    # evaluated_results = await orchestrator.evaluates()
+    evaluated_results = await orchestrator.evaluates()
     # print(evaluated_results)
     csv_report = await orchestrator.analyze()
     print(csv_report)
