@@ -2,6 +2,7 @@
 简单的agent接口，只需要：
 - `agent_chat_inference`：只有`query`参数
 - `agent_chat_status`：无需参数
+
 可能中大型复杂agent的接口有多个参数，因此这个目录是**扩展接口参数**的说明和引导。
 
 ## 用到的模块
@@ -10,7 +11,7 @@
 - **`src/eval/orchestrator.py`**：协调器，对`profiler` -> `describer` -> `evaluator` -> `analyst` 的编排。
 
 ## **具体实现方式**
-langchain的工具添加`config: RunnableConfig`参数：
+与待测试智能体交互的工具函数添加`config: RunnableConfig`参数：
 ```python
 def agent_chat_inference(query: str, config: RunnableConfig) -> str:
     ...
@@ -21,13 +22,13 @@ def agent_chat_inference(query: str, config: RunnableConfig) -> str:
 ```python
 response = await profiler_agent.ainvoke(input_data, agent_api_extras=extras)
 ```
-其中`extras`参数为：
+其中`extras`参数为(json形式)：
 ```json
 {
     "session_id": "test-session-xx-id"
 }
 ```
-或者
+或者(python的dict形式)
 ```python
 a = {"session_id": "test-session-001", "a": 123, "b": [1,2,3], "c": {"key": "value"}}
 ```

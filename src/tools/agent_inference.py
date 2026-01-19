@@ -1,7 +1,7 @@
 from langchain_core.tools import tool
 from langchain_core.runnables import RunnableConfig
 from src.mock.agent_api_inference import agent_api_inference, agent_api_health_check
-
+from src.utils.logger import logger
 @tool()
 def agent_chat_inference(query: str, config: RunnableConfig) -> str:
     """
@@ -17,7 +17,7 @@ def agent_chat_inference(query: str, config: RunnableConfig) -> str:
     # print("agent_api_extras", agent_api_extras)
     # print("type(agent_api_extras)", type(agent_api_extras))
     session_id = agent_api_extras.get("session_id", "test_default_session")
-    print("session_id", session_id)
+    logger.info(f"session_id: {session_id}")
     return agent_api_inference(query=query, session_id=session_id)
 
 @tool()
