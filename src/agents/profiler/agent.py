@@ -18,7 +18,7 @@ ProfilerAgent_SYSTEM_PROMPT = load_prompt_templates()["profiler"]["system_prompt
 class ProfilerAgent:
     """Profiler Agent ，无状态调用 Agent 并管理对话历史。"""
 
-    def __init__(self, config: Configuration) -> None:
+    def __init__(self, config: Configuration = Configuration()) -> None:
         self.config = config
 
     async def ainvoke(self, input_data: Dict[str, Any], config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:

@@ -28,7 +28,7 @@ def get_full_system_prompt() -> str:
 class DescriberAgent:
     """Describer Agent ，无状态调用 Agent 并管理对话历史。"""
 
-    def __init__(self, config: Configuration) -> None:
+    def __init__(self, config: Configuration = Configuration()) -> None:
         self.config = config
 
     async def ainvoke(self, input_data: Dict[str, Any], config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -58,8 +58,8 @@ class DescriberAgent:
         return {"messages": agent_response["messages"]}
 
 async def main():
-    config = Configuration()
-    describer_agent = DescriberAgent(config)
+    # config = Configuration()
+    describer_agent = DescriberAgent()
     config = load_config()
     test_file = config.get("test","test_data_file")
     with open(test_file, "r", encoding="utf-8") as f:
