@@ -24,6 +24,11 @@ class DataLoader:
             raise FileNotFoundError(f"文件未找到: {resolved_path}")
         with open(resolved_path, 'r', encoding='utf-8') as f:
             return json.load(f)
+        
+    def _dump_json_file(self, data: Any, file_path: str):
+        resolved_path = self._resolve_path(file_path)
+        with open(resolved_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
 
     def load_test_data(self) -> List[Dict[str, Any]]:
         """加载测试数据"""
@@ -41,6 +46,12 @@ class DataLoader:
             'test_data': self.load_test_data(),
             'test_description': self.load_test_description(),
         }
+    
+    def save_described_data(self, described_data: List[Dict[str, Any]]):
+        """保存重写后的测试描述数据"""
+        describer_output_file = self.config.get('eval', 'describer_output_file')
+        resolved_path = self._resolve_path(describer_output_file)
+        self._dump_json_file(described_data, resolved_path)
 
 if __name__ == "__main__":
     data_loader = DataLoader()
