@@ -78,6 +78,18 @@ class DataLoader:
         """加载评估结果数据"""
         evaluator_output_file = self.config.get('eval', 'evaluator_output_file')
         return self._load_json_file(evaluator_output_file)
+
+    def save_analysis_report(self, csv_report: str):
+        """保存分析报告为 CSV 文件"""
+        analysis_report_file = self.config.get('eval', 'analysis_report_file')
+        output_dir = os.path.dirname(analysis_report_file)
+        if output_dir:
+            resolved_output_dir = self._resolve_path(output_dir)
+            os.makedirs(resolved_output_dir, exist_ok=True)
+
+        resolved_path = self._resolve_path(analysis_report_file)
+        with open(resolved_path, 'w', encoding='utf-8') as f:
+            f.write(csv_report)
     
 if __name__ == "__main__":
     data_loader = DataLoader()
