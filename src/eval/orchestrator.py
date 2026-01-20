@@ -106,9 +106,9 @@ async def main():
 
     # profile_response = await orchestrator.profile()
     # print(profile_response)
-    described_data = await orchestrator.describes()
+    # described_data = await orchestrator.describes()
     # print(described_data)
-    evaluated_results = await orchestrator.evaluates()
+    # evaluated_results = await orchestrator.evaluates()
     # print(evaluated_results)
     csv_report = await orchestrator.analyze()
     print(csv_report)
