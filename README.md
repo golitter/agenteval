@@ -1,6 +1,9 @@
 # AgentEval
 
-tool-use agent 评估框架 - 评估工具使用智能体性能的多智能体系统
+tool-use Agent 评估框架 - 评估工具使用智能体的多智能体评估系统
+
+tool-use Agent Evaluation Framework - A Multi-Agent Evaluation System for Tool-use Agent
+
 
 ## 简介
 
