@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "mcd-mcp": {
+      "transport": "streamable_http",
+      "url": "https://mcp.mcd.cn/mcp-servers/mcd-mcp",
+      "headers": {
+        "Authorization": "Bearer {YOUR_MCP_TOKEN}"
+      }
+    }
+  }
+}
