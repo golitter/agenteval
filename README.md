@@ -38,8 +38,6 @@ asyncio.run(main())
 
 ## TODO
 
-### 已知问题
-
 - [ ] **测试过程数据 checkpoint**：评估过程中缺少中间结果保存机制，异常中断后无法恢复
 - [ ] **Agent memory 超限**：长对话可能导致 memory 超出上下文限制，需要分段或压缩机制
 - [ ] **Profiler 分析局限**：单次分析 + 循环限制可能无法完整生成 agent 文档，复杂 agent 需要多次交互
