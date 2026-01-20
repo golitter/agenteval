@@ -10,6 +10,8 @@
 - **`src/agents/evaluator/agent.py`**：使用待测智能体进行评估
 - **`src/eval/orchestrator.py`**：协调器，对`profiler` -> `describer` -> `evaluator` -> `analyst` 的编排。
 
+> `evaluator-agent`的系统提示词显式的描述了`agent_chat_inference`和`agent_chat_status`这两个接口，如果有其他接口也可以显式的进行提示。
+
 ## **具体实现方式**
 与待测试智能体交互的工具函数添加`config: RunnableConfig`参数：
 ```python
