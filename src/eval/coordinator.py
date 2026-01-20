@@ -12,7 +12,7 @@ from src.agents import (
     ProfilerAgent,
     DescriberAgent,
 )
-class Orchestrator:
+class Coordinator:
     def __init__(self, data_loader):
         self.data_loader = data_loader
 
@@ -102,15 +102,15 @@ async def main():
     from src.eval.utils.data_loader import DataLoader
 
     data_loader = DataLoader()
-    orchestrator = Orchestrator(data_loader)
+    coordinator = Coordinator(data_loader)
 
-    # profile_response = await orchestrator.profile()
+    # profile_response = await coordinator.profile()
     # print(profile_response)
-    # described_data = await orchestrator.describes()
+    # described_data = await coordinator.describes()
     # print(described_data)
-    # evaluated_results = await orchestrator.evaluates()
+    # evaluated_results = await coordinator.evaluates()
     # print(evaluated_results)
-    csv_report = await orchestrator.analyze()
+    csv_report = await coordinator.analyze()
     print(csv_report)
 if __name__ == "__main__":
     asyncio.run(main())
