@@ -16,10 +16,11 @@ class Coordinator:
     def __init__(self, data_loader):
         self.data_loader = data_loader
 
-    async def profile(self, query: str = "请分析这个智能体的设计目的和使用的工具。"):
+    async def profile(self,recursion_limit:int = 25, query: str = "请分析这个智能体的设计目的和使用的工具。"):
         """
         对待测智能体进行分析。
         Args:
+            recursion_limit: 递归调用的最大深度。
             query: 用于分析智能体的查询字符串。
         Returns:
             包含分析信息的markdown文本。
@@ -32,7 +33,7 @@ class Coordinator:
         
         with open(extras_profile_config, "r", encoding="utf-8") as f:
             extras_profile_config = json.load(f)
-        return await profiler.ainvoke({"input": query}, agent_api_extras=extras_profile_config)
+        return await profiler.ainvoke({"input": query}, recursion_limit=recursion_limit, agent_api_extras=extras_profile_config)
 
     async def describes(self):
         """
@@ -104,13 +105,13 @@ async def main():
     data_loader = DataLoader()
     coordinator = Coordinator(data_loader)
 
-    # profile_response = await coordinator.profile()
+    profile_response = await coordinator.profile(2)
     # print(profile_response)
     # described_data = await coordinator.describes()
     # print(described_data)
     # evaluated_results = await coordinator.evaluates()
     # print(evaluated_results)
-    csv_report = await coordinator.analyze()
-    print(csv_report)
+    # csv_report = await coordinator.analyze()
+    # print(csv_report)
 if __name__ == "__main__":
     asyncio.run(main())

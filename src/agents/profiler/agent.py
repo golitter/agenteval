@@ -21,11 +21,13 @@ class ProfilerAgent:
     def __init__(self, config: Configuration = Configuration()) -> None:
         self.config = config
 
-    async def ainvoke(self, input_data: Dict[str, Any], config: Optional[Dict[str, Any]] = None, agent_api_extras: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def ainvoke(self, input_data: Dict[str, Any],recursion_limit: int = 25, config: Optional[Dict[str, Any]] = None, agent_api_extras: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+
         """
         异步调用 Profiler Agent 进行分析智能体。
         Args:
             input_data: 包含输入数据的字典，必须包含 "input" 键。
+            recursion_limit: 递归调用的最大深度。
             config: 可选的配置字典，用于覆盖默认配置。
             agent_api_extras: 可选的额外参数字典，传递给 待测试的Agent API。
         Returns:
@@ -62,7 +64,8 @@ class ProfilerAgent:
         agent_response = await agent.ainvoke({
             "messages": initial_messages + [user_message] # type: ignore
         },
-        config={"callbacks": [SyncCallbackHandler()], "configurable": {"agent_api_extras": agent_api_extras} }
+        config={"callbacks": [SyncCallbackHandler()], "configurable": {"agent_api_extras": agent_api_extras},
+                "recursion_limit":recursion_limit}
         )
 
         messages_to_save = [
